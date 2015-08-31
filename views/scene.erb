@@ -1,0 +1,13 @@
+<h1><%= @scene.name %></h1>
+<h3><%= @scene.description %></h3>
+
+
+<% if @scene.options.any? %>
+  <ul>
+    <% @scene.options.each do |option| %>
+      <li><a href="/scenes/<%= option.id %>"><%= option.keyword %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4><a href="/">Start Over</a></h4>
+<% end %>

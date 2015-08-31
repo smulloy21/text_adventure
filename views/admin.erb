@@ -1,0 +1,18 @@
+<h1>Admin Page</h1>
+
+<h3>Create a new quest</h3>
+<form class="" action="/quests/new" method="post">
+  <label for="name">Quest name:</label>
+  <input type="text" name="name" id="name">
+  <button type="submit" name="button">Create</button>
+</form>
+
+
+<% if @quests.any? %>
+  <h3>Edit a quest</h3>
+  <ul>
+    <% @quests.each do |quest| %>
+      <li><a href="/quests/<%= quest.id %>/edit"><%= quest.name %></a></li>
+    <% end %>
+  </ul>
+<% end %>

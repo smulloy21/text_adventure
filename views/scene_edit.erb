@@ -1,0 +1,45 @@
+<h1>Scene: <%= @scene.name %></h1>
+
+<h3>Description</h3>
+<p>
+  <%= @scene.description %>
+</p>
+
+<h4>Update name:</h4>
+  <form class="" action="/scenes/<%= @scene.id %>/edit_name" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <input type="text" name="name" id="name" required>
+    <button class="btn btn-default" type="submit" name="button">Update</button>
+  </form>
+<h4>Update description:</h4>
+  <form class="" action="/scenes/<%= @scene.id %>/edit_description" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <input type="text" name="description" id="description" required>
+    <button class="btn btn-default" type="submit" name="button">Update</button>
+  </form>
+<h4>Delete scene</h4>
+  <form class="" action="/scenes/<%= @scene.id %>/delete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button class="btn btn-danger" type="submit" name="button">Delete</button>
+  </form>
+<br>
+<br>
+<% if @scene.previous_scene != nil %>
+  <h3>Previous Scene:</h3>
+  <h4><a href="/scenes/<%= @scene.previous_scene %>/edit"><%= Scene.find(@scene.previous_scene).name%></a></h4>
+  <p>
+    <%= Scene.find(@scene.previous_scene).description %>
+  </p>
+<% end %>
+
+<% if @scene.options.any? %>
+<h3>Following Scenes:</h3>
+  <% @scene.options.each do |option| %>
+    <h4><%= Scene.find(option.id).keyword%>: <a href="/scenes/<%= option.id %>/edit"><%= Scene.find(option.id).name%></a></h4>
+    <p>
+      <%= Scene.find(option.id).description %>
+    </p>
+  <% end %>
+<% end %>
+
+<h2>Quest: <a href="/quests/<%= Quest.find(@scene.quest_id).id %>/edit"><%= Quest.find(@scene.quest_id).name %></a></h2>

@@ -1,0 +1,11 @@
+<h1>Welcome, <%= @character.name %>. Choose your quest.</h1>
+
+<ul>
+  <% @quests.each do |quest| %>
+    <% quest.scenes.each do |scene| %>
+      <% if scene.keyword == "START" %>
+        <li><a href="/scenes/<%= scene.id %>"><%= quest.name %></a></li>
+      <% end %>
+    <% end %>
+  <% end %>
+</ul>
