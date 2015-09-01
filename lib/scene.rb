@@ -11,4 +11,14 @@ class Scene < ActiveRecord::Base
     end
     options
   end
+
+  define_method(:required_observations?) do
+    required = []
+    observations.each do |observation|
+      if observation.required == true
+        required.push(observation.id)
+      end
+    end
+    required
+  end
 end

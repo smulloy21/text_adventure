@@ -96,5 +96,17 @@ end
 
 get('/scenes/:id') do
   @scene = Scene.find(params.fetch('id').to_i)
+  @@can_continue = @scene.required_observations?
+  @div = ""
+  erb(:scene)
+end
+
+get('/scenes/:id/observations/:observation_id') do
+  @scene = Scene.find(params.fetch('id').to_i)
+  @observation = Observation.find(params.fetch('observation_id'))
+  @div = @observation.description
+  if @observation.required == true && @@can_continue.include?(@observation.id)
+    @@can_continue.delete(@observation.id)
+  end
   erb(:scene)
 end

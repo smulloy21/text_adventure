@@ -29,7 +29,7 @@
     <% if @scene.observations.any? %>
       <ul>
         <% @scene.observations.each do |observation| %>
-          <li> <%= observation.keyword %> - <%= observation.name %> - <%= observation.description %></li>
+          <li> <%= observation.keyword %> - <%= observation.name %> - <%= observation.description %> - Required: <%= observation.required %></li>
         <% end %>
       </ul>
     <% else %>
