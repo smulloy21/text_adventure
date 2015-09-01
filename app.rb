@@ -14,7 +14,7 @@ get('/login') do
   password = params.fetch("password")
   if User.find_user_login(name, password) != nil
     @user = User.find_user_login(name, password)
-    erb(:character)
+    erb(:player)
   else
     erb(:index)
   end
@@ -29,7 +29,7 @@ post('/login/new') do
     #pass an error message
   end
   User.create({:name => name, :password => password1})
-  erb(:character)
+  erb(:player)
 end
 
 ############################## ADMIN ##################################
@@ -111,17 +111,22 @@ end
 
 ####################### PLAY QUEST #################################
 
-get('character/:id')
-
+get('/user/:id') do
+  id = params.fetch('id').to_i
+  @users = User.all()
+  @user = User.find(id)
   erb(:quest)
 end
 
-post('/characters/new') do
+post('/users/:id/characters/new') do
   name = params.fetch('name')
   @character = Character.create({:name => name})
   @quests = Quest.all
-  erb(:quest)
-end
+  id = params.fetch('id').to_i
+  @user = User.find(id)
+  Character.create({:name => name, :user_id => id})
+  erb(:player)
+  end
 
 get('/scenes/:id') do
   @scene = Scene.find(params.fetch('id').to_i)

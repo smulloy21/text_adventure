@@ -1,7 +1,25 @@
-<h1>Welcome to Text Adventure</h1>
+<h1>Welcome to Text Adventure <%=@user.name%></h1>
+
+<% if @user.characters.any?() %>
+
+  <ul>
+    <% @user.characters.each do |character| %>
+
+      <%= Character.find(character.id).name %>
+
+    <% end %>
+
+  </ul>
+
+  <% else %>
+
+    <p>You have no characters yet.</p>
+
+  <%end%>
+
 
 <h3>To create a character, select a name:</h3>
-<form class="" action="/characters/new" method="post">
+<form class="" action="/users/<%= @user.id %>/characters/new" method="post">
   <input type="text" name="name" id="name">
   <button class="btn btn-primary" type="submit" name="button">Begin</button>
 </form>
