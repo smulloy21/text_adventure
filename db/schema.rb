@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150901170505) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "quests", force: :cascade do |t|
@@ -41,7 +42,6 @@ ActiveRecord::Schema.define(version: 20150901170505) do
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "password"
-    t.integer  "character_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,9 +3,10 @@ class UsersTable < ActiveRecord::Migration
     create_table(:users) do |t|
       t.column(:name, :string)
       t.column(:password, :varchar)
-      t.column(:character_id, :integer)
 
       t.timestamps
     end
+
+    add_column(:characters, :user_id, :integer)
   end
 end
