@@ -24,6 +24,37 @@
   </form>
 <br>
 <br>
+<div>
+    <!-- loop to output observations -->
+    <% if @scene.observations.any? %>
+      <ul>
+        <% @scene.observations.each do |observation| %>
+          <li> <%= observation.keyword %> - <%= observation.name %> - <%= observation.description %> - Required: <%= observation.required %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p> No observations exist for this scene, yet </p>
+    <% end %>
+    <form action ="/scenes/<%= @scene.id %>/add_observation"method="post">
+      <label for="keyword">Keyword</label>
+      <input type="text" name="keyword">
+
+      <label for="name">Name</label>
+      <input type="text" name="name">
+
+      <label for="description">Description</label>
+      <input type="text" name="description">
+
+      <label for="required">Required</label>
+      <input type="radio" name="required" value="true"> True, its required
+      <input type="radio" name="required" value="false"> False, not required
+
+      <button type="submit">Add observation</button>
+
+    </form>
+    <!-- form to add observations -->
+</div>
+<br>
 <% if @scene.previous_scene != nil %>
   <h3>Previous Scene:</h3>
   <h4><a href="/scenes/<%= @scene.previous_scene %>/edit"><%= Scene.find(@scene.previous_scene).name%></a></h4>
