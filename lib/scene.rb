@@ -1,5 +1,6 @@
 class Scene < ActiveRecord::Base
   belongs_to(:quest)
+  has_many(:observations)
 
   define_method(:options) do
     options = []
