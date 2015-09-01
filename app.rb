@@ -3,6 +3,7 @@ require 'active_record'
 require('bundler/setup')
 Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
+require('pry')
 
 get('/') do
   erb(:index)
@@ -91,22 +92,54 @@ post('/characters/new') do
   name = params.fetch('name')
   @character = Character.create({:name => name})
   @quests = Quest.all
+  @@div = ""
   erb(:quest)
 end
 
 get('/scenes/:id') do
   @scene = Scene.find(params.fetch('id').to_i)
   @@can_continue = @scene.required_observations?
-  @div = ""
   erb(:scene)
+end
+
+get('/scenes/:id/interpret') do
+  destructive_verbs = ['break', 'kick', 'punch', 'hit', 'pick up', 'pick']
+  going_verbs = ['go', 'walk', 'jump', 'climb', 'slide', 'somersault', ]
+  @scene = Scene.find(params.fetch('id').to_i)
+  text = params.fetch('text')
+  @scene.options.each do |option|
+    going_verbs.each do |verb|
+      if text.downcase.include?(verb) && text.downcase.include?(option.keyword.downcase)
+        @@div = ""
+        redirect('/scenes/' + option.id.to_s)
+      end
+    end
+  end
+  if text.downcase.include?('back')
+    @@div = ""
+    redirect('/scenes/' + @scene.previous_scene.to_s)
+  end
+  destructive_verbs.each do |verb|
+    if text.downcase.include?(verb)
+      @@div = "You can't " + verb + " that."
+      redirect('/scenes/' + @scene.id.to_s)
+    end
+  end
+  @scene.observations.each do |observation|
+    if text.include?(observation.keyword)
+      redirect('/scenes/' + @scene.id.to_s + '/observations/' + observation.id.to_s)
+    end
+  end
+  @@div = "You can't do that."
+  redirect('/scenes/' + @scene.id.to_s)
 end
 
 get('/scenes/:id/observations/:observation_id') do
   @scene = Scene.find(params.fetch('id').to_i)
   @observation = Observation.find(params.fetch('observation_id'))
-  @div = @observation.description
+  @@div = @observation.description
   if @observation.required == true && @@can_continue.include?(@observation.id)
     @@can_continue.delete(@observation.id)
   end
-  erb(:scene)
+  redirect('/scenes/' + @scene.id.to_s)
 end
