@@ -16,6 +16,7 @@
 
 <% if @@can_continue.length == 0 %>
   <% if @scene.options.any? %>
+  <h4> Choices </h4>
     <ul>
       <% @scene.options.each do |option| %>
         <li><a href="/scenes/<%= option.id %>"><%= option.keyword %></a></li>
