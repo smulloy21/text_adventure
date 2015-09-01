@@ -75,6 +75,16 @@ delete('/scenes/:id/delete') do
   redirect('/quests/' + @quest.id.to_s + '/edit')
 end
 
+post('/scenes/:id/add_observation') do
+  @scene = Scene.find(params.fetch('id').to_i)
+  name = params.fetch('name')
+  keyword = params.fetch('keyword')
+  description = params.fetch('description')
+  required = params.fetch('required')
+  Observation.create({:name => name, :keyword => keyword, :description => description, :required => required, :scene_id => @scene.id})
+  redirect('/scenes/' + @scene.id.to_s + '/edit')
+end
+
 ####################### PLAY QUEST #################################
 
 post('/characters/new') do
@@ -86,5 +96,17 @@ end
 
 get('/scenes/:id') do
   @scene = Scene.find(params.fetch('id').to_i)
+  @@can_continue = @scene.required_observations?
+  @div = ""
+  erb(:scene)
+end
+
+get('/scenes/:id/observations/:observation_id') do
+  @scene = Scene.find(params.fetch('id').to_i)
+  @observation = Observation.find(params.fetch('observation_id'))
+  @div = @observation.description
+  if @observation.required == true && @@can_continue.include?(@observation.id)
+    @@can_continue.delete(@observation.id)
+  end
   erb(:scene)
 end
