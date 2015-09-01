@@ -1,9 +1,14 @@
-<h1>Welcome to Text Adventure</h1>
+<h1>Welcome to Michael's Fun House of Horrors</h1>
 
-<h3>To begin a new quest, enter your name:</h3>
-<form class="" action="/characters/new" method="post">
-  <input type="text" name="name" id="name">
-  <button class="btn btn-primary" type="submit" name="button">Begin</button>
+<form action="/login" method="get">
+  <input type="text" name="login" id="login" placeholder="enter login">
+  <input type="text" name="password" id="password" placeholder="enter password">
+  <button type="submit">Login</button>
 </form>
 
-<a href="/admin"><button class="btn" type="button" name="button">Admin</button></a>
+<form action="/login/new" method="post">
+  <input type="text" name="new_name" id="new_name" placeholder="enter new login">
+  <input type="text" name="new_password1" id="new_pasword1" placeholder="enter new password">
+  <input type="text" name="new_password2" id="new_pasword2" placeholder="confirm password">
+  <button type="submit">Create Account</button>
+</form>
