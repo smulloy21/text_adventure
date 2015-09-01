@@ -75,6 +75,16 @@ delete('/scenes/:id/delete') do
   redirect('/quests/' + @quest.id.to_s + '/edit')
 end
 
+post('/scenes/:id/add_observation') do
+  @scene = Scene.find(params.fetch('id').to_i)
+  name = params.fetch('name')
+  keyword = params.fetch('keyword')
+  description = params.fetch('description')
+  required = params.fetch('required')
+  Observation.create({:name => name, :keyword => keyword, :description => description, :required => required, :scene_id => @scene.id})
+  redirect('/scenes/' + @scene.id.to_s + '/edit')
+end
+
 ####################### PLAY QUEST #################################
 
 post('/characters/new') do
