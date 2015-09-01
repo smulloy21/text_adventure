@@ -3,9 +3,33 @@ require 'active_record'
 require('bundler/setup')
 Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
+require ('pry')
 
 get('/') do
   erb(:index)
+end
+
+get('/login') do
+  name = params.fetch("login")
+  password = params.fetch("password")
+  if User.find_user_login(name, password) != nil
+    @user = User.find_user_login(name, password)
+    erb(:character)
+  else
+    erb(:index)
+  end
+end
+
+post('/login/new') do
+  name =  params.fetch("new_name")
+  password1 = params.fetch("new_password1")
+  password2 = params.fetch("new_password2")
+  if password2 != password1
+    redirect('/')
+    #pass an error message
+  end
+  User.create({:name => name, :password => password1})
+  erb(:character)
 end
 
 ############################## ADMIN ##################################
@@ -86,6 +110,11 @@ post('/scenes/:id/add_observation') do
 end
 
 ####################### PLAY QUEST #################################
+
+get('character/:id')
+
+  erb(:quest)
+end
 
 post('/characters/new') do
   name = params.fetch('name')

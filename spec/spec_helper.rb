@@ -26,5 +26,8 @@ RSpec.configure do |config|
     Scene.all().each() do |scene|
       scene.destroy()
     end
+    User.all().each() do |user|
+      user.destroy()
+    end
   end
 end
