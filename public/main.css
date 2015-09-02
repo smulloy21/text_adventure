@@ -2,7 +2,6 @@
 body {
   text-align: center;
 }
-
 .ko-main-container {
   /*background: url('/img/Eastern_Puzzle.jpg') no-repeat top center fixed;*/
   background-size: cover;
@@ -10,10 +9,26 @@ body {
   width: 100%;
   margin: auto; auto;
 }
-
 .well {
   display: block;
   width: 65%;
   margin-left: auto;
   margin-right: auto;
+}
+#bg{
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+}
+#bg img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%
 }

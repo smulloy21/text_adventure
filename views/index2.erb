@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <h1>Welcome to Michael's Fun House of Horrors</h1>
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="/img/Eastern_Puzzle.jpg"></iframe>
+    </div>
+    <div class="row">
+      <div class="col-md-4"> </div>
+        <div class="col-md-4">
+          <div class="well">
+            <form action="/login" method="get">
+              <input class="btn btn-default" type="text" name="login" id="login" placeholder="Enter Login">
+              <input class="btn btn-default" type="text" name="password" id="password" placeholder="Enter Password">
+              <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+
+            <form action="/login/new" method="post">
+              <input class="btn btn-default" type="text" name="new_name" id="new_name" placeholder="Enter New Login">
+              <input class="btn btn-default" type="text" name="new_password1" id="new_pasword1" placeholder="Enter New Password">
+              <input class="btn btn-default" type="text" name="new_password2" id="new_pasword2" placeholder="Confirm Password">
+              <button class="btn btn-primary" type="submit">Create Account</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  <a href="/admin">Admin</a>
+</div>
