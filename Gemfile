@@ -7,9 +7,6 @@ gem('pg')
 gem('sinatra')
 gem('pry')
 
-group(:test) do
-
-  gem('rspec')
-  gem('capybara')
-  gem('shoulda-matchers')
-end
+gem('rspec')
+gem('capybara')
+gem('shoulda-matchers')
