@@ -11,7 +11,7 @@ get('/') do
 end
 
 get('/login') do
-  name = params.fetch("login")
+  name = params.fetch("name")
   password = params.fetch("password")
   if User.find_user_login(name, password) != nil
     @user = User.find_user_login(name, password)
@@ -22,14 +22,14 @@ get('/login') do
 end
 
 post('/login/new') do
-  name =  params.fetch("new_name")
-  password1 = params.fetch("new_password1")
-  password2 = params.fetch("new_password2")
-  if password2 != password1
+  name =  params.fetch("email")
+  password = params.fetch("password")
+  password2 = params.fetch("password2")
+  if password2 != password
     redirect('/')
     #pass an error message
   end
-  @user = User.create({:name => name, :password => password1})
+  @user = User.create({:name => name, :password => password})
   erb(:character)
 end
 
