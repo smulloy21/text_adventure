@@ -1,14 +1,17 @@
 <h1>Welcome to Michael's Fun House of Horrors</h1>
+<div style="position:absolute; top: 500px; left: 20px; right: 20px;">
+  <div class="well">
+    <form action="/login" method="get">
+      <input class="btn btn-default" type="text" name="login" id="login" placeholder="Enter Login">
+      <input class="btn btn-default" type="text" name="password" id="password" placeholder="Enter Password">
+      <button class="btn btn-primary" type="submit">Login</button>
+    </form>
 
-<form action="/login" method="get">
-  <input type="text" name="login" id="login" placeholder="enter login">
-  <input type="text" name="password" id="password" placeholder="enter password">
-  <button type="submit">Login</button>
-</form>
-
-<form action="/login/new" method="post">
-  <input type="text" name="new_name" id="new_name" placeholder="enter new login">
-  <input type="text" name="new_password1" id="new_pasword1" placeholder="enter new password">
-  <input type="text" name="new_password2" id="new_pasword2" placeholder="confirm password">
-  <button type="submit">Create Account</button>
-</form>
+    <form action="/login/new" method="post">
+      <input class="btn btn-default" type="text" name="new_name" id="new_name" placeholder="Enter New Login">
+      <input class="btn btn-default" type="text" name="new_password1" id="new_pasword1" placeholder="Enter New Password">
+      <input class="btn btn-default" type="text" name="new_password2" id="new_pasword2" placeholder="Confirm Password">
+      <button class="btn btn-primary" type="submit">Create Account</button>
+    </form>
+  </div>
+</div>
