@@ -12,6 +12,10 @@ get('/') do
   erb(:index)
 end
 
+get('/about') do
+  erb(:about)
+end
+
 get('/login') do
   name = params.fetch("name")
   password = params.fetch("password")
