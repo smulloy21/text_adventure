@@ -35,13 +35,6 @@ post('/login/new') do
   erb(:character)
 end
 
-delete('/exterminate') do
-  Quest.all.each do |quest|
-    quest.destroy()
-  end
-  redirect('/')
-end
-
 ############################## ADMIN ##################################
 
 get('/:user_id/admin') do

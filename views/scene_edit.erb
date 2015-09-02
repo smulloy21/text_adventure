@@ -13,19 +13,19 @@ $(document).ready(function(){
 });
 </script>
 
-<button id="toggle_edit"> Show scene edit </button>
+<button id="toggle_edit"> Edit Scene </button>
 <div id="update_container" style="display:none;">
-<h4>Update name:</h4>
+<h4>Edit name:</h4>
   <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_name" method="post">
     <input type="hidden" name="_method" value="patch">
     <input type="text" name="name" id="name" required>
-    <button class="btn btn-default" type="submit" name="button">Update</button>
+    <button class="btn btn-default" type="submit" name="button">Edit</button>
   </form>
-<h4>Update description:</h4>
+<h4>Edit description:</h4>
   <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_description" method="post">
     <input type="hidden" name="_method" value="patch">
     <input type="text" name="description" id="description" required>
-    <button class="btn btn-default" type="submit" name="button">Update</button>
+    <button class="btn btn-default" type="submit" name="button">Edit</button>
   </form>
 <h4>Delete scene</h4>
   <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/delete" method="post">

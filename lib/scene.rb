@@ -26,7 +26,7 @@ class Scene < ActiveRecord::Base
   define_method(:render_menu) do
     s = ''
     self.options.each do |option|
-      s << '<li><a href="/scenes/' + option.id.to_s + '/edit">' + option.name + '</a></li>'
+      s << '<li><a href="/' + self.quest.user_id.to_s + '/scenes/' + option.id.to_s + '/edit">' + option.name + '</a></li>'
       s << '<ul>'
       s << (option.render_menu())
       s << '</ul>'
