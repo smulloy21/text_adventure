@@ -4,7 +4,7 @@
   <% if @scenes.any? %>
   <% @quest.scenes.each do |scene| %>
     <% if scene.keyword == "START" %>
-      <li><a href="/scenes/<%= scene.id %>/edit"><%= scene.name %></a></li>
+      <li><a href="/<%= @user.id %>/scenes/<%= scene.id %>/edit"><%= scene.name %></a></li>
       <ul>
         <div><%= scene.render_menu()%> </div>
       </ul>
@@ -14,7 +14,7 @@
 
 <% else %>
   <h3>Create an opening scene:</h3>
-  <form id="start_scene" action="/scenes/new" method="post">
+  <form id="start_scene" action="/<%= @user.id %>/scenes/new" method="post">
     <input type="hidden" name="quest_id" value="<%= @quest.id %>">
     <input type="text" name="name" id="name" placeholder="Scene name"><br>
     <textarea name="description" rows="8" cols="40" form="start_scene" placeholder="Scene description/prompt"></textarea><br>
@@ -22,7 +22,7 @@
   </form>
 <% end %>
 
-<form class="" action="/quests/<%= @quest.id %>/delete" method="post">
+<form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/delete" method="post">
   <input type="hidden" name="_method" value="delete">
   <button type="submit" name="button">Delete quest</button>
 </form>

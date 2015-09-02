@@ -1,16 +1,36 @@
 <h2>Hi, <%= @user.name %></h2>
 
+<h3>Play a quest! Choose a character to begin:</h3>
 <% if @user.characters.any? %>
   <h3>Here are your current characters:</h3>
   <ul>
     <% @user.characters.each do |character| %>
-      <li><a href="users/<%= @user.id %>/characters/<%= character.id %>"><%= character.name %></a></li>
+      <li><a href="/characters/<%= character.id %>"><%= character.name %></a></li>
     <% end %>
   </ul>
 <% end %>
 
-<form class="" action="/users/<%= @user.id %>/characters/new" method="post">
+<form class="" action="/characters/new" method="post">
+  <input type="hidden" name="user_id" value="<%= @user.id %>">
   <label for="name">Character Name:</label>
   <input type="text" name="name" id="name">
   <button type="submit" name="button">Submit</button>
+</form>
+
+
+<% if @user.quests.any? %>
+  <h3>Here are your current quests:</h3>
+  <ul>
+    <% @user.quests.each do |quest| %>
+      <li><a href="/<%= @user.id %>/quests/<%= quest.id %>/edit"><%= quest.name %></a></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h3>Create a quest!</h3>
+<a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
+
+<form class="" action="/exterminate" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button class="btn btn-danger" type="submit">Exterminate</button>
 </form>
