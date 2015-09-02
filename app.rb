@@ -39,73 +39,90 @@ post('/login/new') do
   erb(:character)
 end
 
+delete('/exterminate') do
+  Quest.all.each do |quest|
+    quest.destroy()
+  end
+  redirect('/')
+end
+
 ############################## ADMIN ##################################
 
-get('/admin') do
-  @quests = Quest.all
+get('/:user_id/admin') do
+  @user = User.find(params.fetch('user_id').to_i)
+  @quests = @user.quests
   erb(:admin)
 end
 
-post('/quests/new') do
+post('/:user_id/quests/new') do
+  @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
-  Quest.create({:name => name})
-  redirect('/admin')
+  Quest.create({:name => name, :user_id => @user.id})
+  redirect('/' + @user.id.to_s + '/admin')
 end
 
-get('/quests/:id/edit') do
+get('/:user_id/quests/:id/edit') do
+  @user = User.find(params.fetch('user_id').to_i)
   @quest = Quest.find(params.fetch('id').to_i)
   @scenes = @quest.scenes.sort_by(&:created_at)
   erb(:quest_edit)
 end
 
-delete('/quests/:id/delete') do
+delete('/:user_id/quests/:id/delete') do
+  @user = User.find(params.fetch('user_id').to_i)
   @quest = Quest.find(params.fetch('id').to_i)
   @quest.scenes.each do |scene|
     scene.destroy()
   end
   @quest.destroy()
-  redirect('/')
+  redirect('/' + @user.id.to_s + '/admin')
 end
 
-post('/scenes/new') do
+post('/:user_id/scenes/new') do
+  @user = User.find(params.fetch('user_id').to_i)
   @quest = Quest.find(params.fetch('quest_id').to_i)
   keyword = "START"
   name = params.fetch('name')
   description = params.fetch('description')
   Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => nil})
-  redirect('/quests/' + @quest.id.to_s + '/edit')
+  redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
 end
 
-post('/scenes/add') do
+post('/:user_id/scenes/add') do
+  @user = User.find(params.fetch('user_id').to_i)
   @quest = Quest.find(params.fetch('quest_id').to_i)
   previous_id = params.fetch('previous_scene').to_i
   keyword = params.fetch('keyword')
   name = params.fetch('name')
   description = params.fetch('description')
   @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id})
-  redirect('/scenes/' + @scene.id.to_s + '/edit')
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
-get('/scenes/:id/edit') do
+get('/:user_id/scenes/:id/edit') do
+  @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
   erb(:scene_edit)
 end
 
-patch('/scenes/:id/edit_name') do
+patch('/:user_id/scenes/:id/edit_name') do
+  @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
   name = params.fetch('name')
   @scene.update({:name => name})
-  redirect('/scenes/' + @scene.id.to_s + '/edit')
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
-patch('/scenes/:id/edit_description') do
+patch('/:user_id/scenes/:id/edit_description') do
+  @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
   description = params.fetch('description')
   @scene.update({:description => description})
-  redirect('/scenes/' + @scene.id.to_s + '/edit')
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
-delete('/scenes/:id/delete') do
+delete('/:user_id/scenes/:id/delete') do
+  @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
   @quest = Quest.find(@scene.quest_id)
   @scene.options.each do |option|
@@ -113,29 +130,31 @@ delete('/scenes/:id/delete') do
     Scene.find(option.id).destroy()
   end
   @scene.destroy()
-  redirect('/quests/' + @quest.id.to_s + '/edit')
+  redirect(''/' + @user.id.to_s + /quests/' + @quest.id.to_s + '/edit')
 end
 
-post('/scenes/:id/add_observation') do
+post('/:user_id/scenes/:id/add_observation') do
+  @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
   name = params.fetch('name')
   keyword = params.fetch('keyword')
   description = params.fetch('description')
   required = params.fetch('required')
   Observation.create({:name => name, :keyword => keyword, :description => description, :required => required, :scene_id => @scene.id})
-  redirect('/scenes/' + @scene.id.to_s + '/edit')
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
 ####################### PLAY QUEST #################################
 
-get('users/:user_id/characters/:id') do
+get('/characters/:id') do
   @character = Character.find(params.fetch('id').to_i)
-  @user = User.find(params.fetch('user_id').to_i)
+  @user = @character.user
   @quests = Quest.all()
+  @@div = ""
   erb(:quest)
 end
 
-post('/users/:user_id/characters/new') do
+post('/characters/new') do
   @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
   @character = Character.create({:name => name, :user_id => @user.id})

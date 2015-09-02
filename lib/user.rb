@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
+  has_many(:characters)
+  has_many(:quests)
   validates(:name, :presence => true)
   validates(:name, uniqueness: true)
-  has_many(:characters)
 
 
   define_singleton_method(:find_user_login) do |name, password|
