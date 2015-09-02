@@ -5,6 +5,16 @@
   <%= @scene.description %>
 </p>
 
+<script>
+$(document).ready(function(){
+  $("#toggle_edit").click(function(){
+    $("#update_container").toggle();
+  });
+});
+</script>
+
+<button id= "toggle_edit"> Show scene edit </button>
+<div id = "update_container" style="display:none;">
 <h4>Update name:</h4>
   <form class="" action="/scenes/<%= @scene.id %>/edit_name" method="post">
     <input type="hidden" name="_method" value="patch">
@@ -22,6 +32,7 @@
     <input type="hidden" name="_method" value="delete">
     <button class="btn btn-danger" type="submit" name="button">Delete</button>
   </form>
+</div>
 <br>
 <br>
 <div>
@@ -72,5 +83,15 @@
     </p>
   <% end %>
 <% end %>
+
+<h4>Add a following scene to <%= @scene.name %></h4>
+  <form id="next_scene" action="/scenes/add" method="post">
+    <input type="hidden" name="quest_id" value="<%= @scene.quest_id %>">
+    <input type="hidden" name="previous_scene" value="<%= @scene.id %>">
+    <input type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)"><br>
+    <input type="text" name="name" id="name" placeholder="Scene Name"><br>
+    <input type="test" name="description" id="description" placeholder="Description/Prompt"><br>
+    <button type="submit" class="btn btn-default" name="button">Submit</button>
+  </form>
 
 <h2>Quest: <a href="/quests/<%= Quest.find(@scene.quest_id).id %>/edit"><%= Quest.find(@scene.quest_id).name %></a></h2>

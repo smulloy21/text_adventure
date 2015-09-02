@@ -3,8 +3,10 @@ require 'active_record'
 require('bundler/setup')
 Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
+require('sinatra/reloader')
+also_reload('./lib/**/*.rb')
 
-
+require('pry')
 
 get('/') do
   erb(:index)
@@ -76,8 +78,8 @@ post('/scenes/add') do
   keyword = params.fetch('keyword')
   name = params.fetch('name')
   description = params.fetch('description')
-  Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id})
-  redirect('/quests/' + @quest.id.to_s + '/edit')
+  @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id})
+  redirect('/scenes/' + @scene.id.to_s + '/edit')
 end
 
 get('/scenes/:id/edit') do

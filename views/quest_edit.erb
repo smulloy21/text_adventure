@@ -1,29 +1,17 @@
 <h1>Quest: <%= @quest.name %></h1>
 
-<% if @scenes.any? %>
-  <h3>Scenes:</h3>
-  <ul>
-    <% @scenes.each do |scene| %>
+<ul>
+  <% if @scenes.any? %>
+  <% @quest.scenes.each do |scene| %>
+    <% if scene.keyword == "START" %>
       <li><a href="/scenes/<%= scene.id %>/edit"><%= scene.name %></a></li>
-      <% if scene.options.any? %>
-        <h6>Leads to:</h6>
-        <ul>
-          <% scene.options.each do |option| %>
-            <li><a href="/scenes/<%= option.id %>/edit"><%= option.name %></a></li>
-          <% end %>
-        </ul>
-      <% end %>
-      <h4>Add a following scene to <%= scene.name %></h4>
-      <form id="next_scene" action="/scenes/add" method="post">
-        <input type="hidden" name="quest_id" value="<%= @quest.id %>">
-        <input type="hidden" name="previous_scene" value="<%= scene.id %>">
-        <input type="text" name="name" id="name" placeholder="Scene Name"><br>
-        <input type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)"><br>
-        <input type="test" name="description" id="description" placeholder="Description/Prompt"><br>
-        <button type="submit" class="btn btn-default" name="button">Submit</button>
-      </form>
+      <ul>
+        <div><%= scene.render_menu()%> </div>
+      </ul>
     <% end %>
-  </ul>
+  <% end %>
+</ul>
+
 <% else %>
   <h3>Create an opening scene:</h3>
   <form id="start_scene" action="/scenes/new" method="post">
