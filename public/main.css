@@ -33,6 +33,6 @@ body {
   min-width: 50%;
   min-height: 50%
 }
-nav {
-
+.navbar {
+  background-color: #000;
 }
