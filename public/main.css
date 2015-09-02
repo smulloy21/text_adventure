@@ -3,18 +3,6 @@ body {
   /*text-align: center;*/
   background: rgba(100, 100, 100, .8);
 }
-.ko-main-container {
-  background-size: cover;
-  min-height:100vh;
-  width: 100%;
-  margin: auto; auto;
-}
-.well {
-  display: block;
-  width: 65%;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .dropdown-submenu {
     position: relative;
@@ -65,7 +53,7 @@ body {
 }
 #bg{
   position: fixed;
-  top: -50%;
+  top: -46%;
   left: -50%;
   width: 200%;
   height: 200%;
@@ -80,6 +68,7 @@ body {
   min-width: 50%;
   min-height: 50%
 }
-.navbar {
-  background-color: #000;
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: black;
+    color: #FFC0CB;
 }
