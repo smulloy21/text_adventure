@@ -3,6 +3,7 @@ require("rspec")
 require("pg")
 require("sinatra/activerecord")
 
+
 require("bundler/setup")
 Bundler.require(:default, :test)
 set(:root, Dir.pwd())
@@ -28,6 +29,9 @@ RSpec.configure do |config|
     end
     User.all().each() do |user|
       user.destroy()
+    end
+    Observation.all().each() do |observation|
+      observation.destroy()
     end
   end
 end

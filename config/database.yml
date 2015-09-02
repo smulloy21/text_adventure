@@ -1,11 +1,8 @@
 development:
   adapter: postgresql
   database: text_adventure_development
-  # user: postgres
-  # password: secret
+
 
 test:
   adapter: postgresql
   database: text_adventure_test
-  # user: postgres
-  # password: secret
