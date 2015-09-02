@@ -13,8 +13,8 @@ $(document).ready(function(){
 });
 </script>
 
-<button id= "toggle_edit"> Show scene edit </button>
-<div id = "update_container" style="display:none;">
+<button id="toggle_edit"> Show scene edit </button>
+<div id="update_container" style="display:none;">
 <h4>Update name:</h4>
   <form class="" action="/scenes/<%= @scene.id %>/edit_name" method="post">
     <input type="hidden" name="_method" value="patch">
