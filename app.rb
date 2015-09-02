@@ -112,7 +112,7 @@ end
 
 ####################### PLAY QUEST #################################
 
-get('character/:id')
+get('character/:id') do
 
   erb(:quest)
 end
