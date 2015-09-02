@@ -1,6 +1,7 @@
 
 body {
   text-align: center;
+  background: rgba(100, 100, 100, .8);
 }
 .ko-main-container {
   /*background: url('/img/Eastern_Puzzle.jpg') no-repeat top center fixed;*/
@@ -31,4 +32,7 @@ body {
   margin: auto;
   min-width: 50%;
   min-height: 50%
+}
+nav {
+
 }
