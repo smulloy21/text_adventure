@@ -33,3 +33,8 @@
     <button class="btn btn-default" type="submit" name="button">Submit</button>
   </form>
 <% end %>
+
+<form class="" action="/quests/<%= @quest.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit" name="button">Delete quest</button>
+</form>

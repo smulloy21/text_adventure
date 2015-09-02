@@ -1,0 +1,16 @@
+<h2>Hi, <%= @user.name %></h2>
+
+<% if @user.characters.any? %>
+  <h3>Here are your current characters:</h3>
+  <ul>
+    <% @user.characters.eah do |character| %>
+      <li><a href="users/<%= @user.id %>/characters/<%= character.id %>"><%= character.name %></a></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<form class="" action="/users/<%= @user.id %>/characters/new" method="post">
+  <label for="name">Character Name:</label>
+  <input type="text" name="name" id="name">
+  <button type="submit" name="button">Submit</button>
+</form>

@@ -29,7 +29,7 @@ post('/login/new') do
     redirect('/')
     #pass an error message
   end
-  User.create({:name => name, :password => password1})
+  @user = User.create({:name => name, :password => password1})
   erb(:character)
 end
 
@@ -50,6 +50,15 @@ get('/quests/:id/edit') do
   @quest = Quest.find(params.fetch('id').to_i)
   @scenes = @quest.scenes.sort_by(&:created_at)
   erb(:quest_edit)
+end
+
+delete('/quests/:id/delete') do
+  @quest = Quest.find(params.fetch('id').to_i)
+  @quest.scenes.each do |scene|
+    scene.destroy()
+  end
+  @quest.destroy()
+  redirect('/')
 end
 
 post('/scenes/new') do
@@ -94,6 +103,7 @@ delete('/scenes/:id/delete') do
   @scene = Scene.find(params.fetch('id').to_i)
   @quest = Quest.find(@scene.quest_id)
   @scene.options.each do |option|
+
     Scene.find(option.id).destroy()
   end
   @scene.destroy()
@@ -112,14 +122,17 @@ end
 
 ####################### PLAY QUEST #################################
 
-get('character/:id') do
-
+get('users/:user_id/characters/:id') do
+  @character = Character.find(params.fetch('id').to_i)
+  @user = User.find(params.fetch('user_id').to_i)
+  @quests = Quest.all()
   erb(:quest)
 end
 
-post('/characters/new') do
+post('/users/:user_id/characters/new') do
+  @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
-  @character = Character.create({:name => name})
+  @character = Character.create({:name => name, :user_id => @user.id})
   @quests = Quest.all
   @@div = ""
   erb(:quest)
