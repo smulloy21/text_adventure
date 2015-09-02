@@ -1,3 +1,4 @@
+require('pry')
 class Scene < ActiveRecord::Base
   belongs_to(:quest)
   has_many(:observations)
@@ -20,5 +21,16 @@ class Scene < ActiveRecord::Base
       end
     end
     required
+  end
+
+  define_method(:render_menu) do
+    s = ''
+    self.options.each do |option|
+      s << '<li><a href="/scenes/' + option.id.to_s + '/edit">' + option.name + '</a></li>'
+      s << '<ul>'
+      s << (option.render_menu())
+      s << '</ul>'
+    end
+    s
   end
 end

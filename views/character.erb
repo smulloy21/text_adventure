@@ -3,7 +3,7 @@
 <% if @user.characters.any? %>
   <h3>Here are your current characters:</h3>
   <ul>
-    <% @user.characters.eah do |character| %>
+    <% @user.characters.each do |character| %>
       <li><a href="users/<%= @user.id %>/characters/<%= character.id %>"><%= character.name %></a></li>
     <% end %>
   </ul>
