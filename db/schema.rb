@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902162954) do
+ActiveRecord::Schema.define(version: 20150903183611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20150902162954) do
     t.float    "rating"
     t.integer  "times_rated"
     t.integer  "times_completed"
+    t.string   "synopsis"
   end
 
   create_table "scenes", force: :cascade do |t|
