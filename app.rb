@@ -77,6 +77,8 @@ post('/:user_id/scenes/new') do
   keyword = "START"
   name = params.fetch('name')
   description = params.fetch('description')
+  synopsis = params.fetch('synopsis')
+  @quest.update({:synopsis=> synopsis})
   Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => nil})
   redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
 end
@@ -202,4 +204,17 @@ get('/scenes/:id/observations/:observation_id') do
     @@can_continue.delete(@observation.id)
   end
   redirect('/scenes/' + @scene.id.to_s)
+end
+
+post('/scenes/:id/rating') do
+  scene_id = params.fetch('id').to_i
+  rating = params.fetch('rating')
+  scene = Scene.find(scene_id)
+  quest = Quest.find(scene.quest_id)
+  quest.times_rated != nil ? times_rated = quest.times_rated : times_rated = 0
+  times_rated = 1 + times_rated
+  quest.rating != nil ? rating = quest.rating : rating = 0
+  rating = rating + quest.rating()
+  quest.update({:times_rated => times_rated, :rating => rating})
+  erb(:character)
 end
