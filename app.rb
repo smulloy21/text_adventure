@@ -16,6 +16,13 @@ get('/about') do
   erb(:about)
 end
 
+delete('/exterminate') do
+  Quest.all.each do |quest|
+    quest.destroy()
+  end
+  redirect('/')
+end
+
 get('/login') do
   name = params.fetch("name")
   password = params.fetch("password")
@@ -159,6 +166,20 @@ post('/characters/new') do
   @quests = Quest.all
   @@div = ""
   erb(:quest)
+end
+
+# delete('users/:user_id/delete_character/:character_id') do
+#   @character = Character.find(params.fetch('character_id').to_i)
+#   @user = User.find(params.fetch('user_id').to_i)
+#   @character.destroy()
+#   redirect('/users/' + @user.id.to_s)
+# end
+
+get('/users/:user_id/delete_character/:character_id') do
+  @character = Character.find(params.fetch('character_id').to_i)
+  @user = User.find(params.fetch('user_id').to_i)
+  @character.destroy()
+  redirect('/users/' + @user.id.to_s)
 end
 
 get('/characters/:character_id/scenes/:id') do

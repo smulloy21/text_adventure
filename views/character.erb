@@ -8,29 +8,32 @@
     <ul>
       <% @user.characters.each do |character| %>
         <li>
-          <a href="/characters/<%= character.id %>"><%= character.name %></a>
-          <span>
-            <form class="" style="display:inline;" action="/users/<%= @user.id %>" method="post">
+          <a href="/characters/<%= character.id %>"><%= character.name %></a> <a href="/users/<%= @user.id %>/delete_character/<%= character.id %>"><span style="color:red;" class="glyphicon glyphicon-remove"></span></a>
+          <!-- <span>
+            <form id="delete" style="display:inline;" action="/users/<%= @user.id %>/delete_character/<%= character.id %>" method="post">
               <input type="hidden" name="_method" value="delete">
-              <span type="submit"class="glyphicon glyphicon-remove"></span>
+              <span onclick="myFunction()" class="glyphicon glyphicon-remove"></span>
             </form>
-          </span>
+          </span> -->
         </li>
       <% end %>
     </ul>
   <% end %>
   <h4>Create a new character:</h4>
   <form class="" action="/characters/new" method="post">
+    <div class="col-xs-4 centered">
     <input type="hidden" name="user_id" value="<%= @user.id %>">
     <label for="name">Character Name:</label>
-    <input type="text" name="name" id="name">
-    <button type="submit" name="button">Submit</button>
+    <input class="form-control" type="text" placeholder="Character Name" name="name" id="name">
+    <button class="btn btn-default" type="submit" class="btn btn-default" name="button">Submit</button><br>
+  </div>
   </form>
 
   <br>
   <br>
 
   <% if @user.quests.any? %>
+  <br>
     <h3>Quests you've created:</h3>
     <ul>
       <% @user.quests.each do |quest| %>
@@ -42,3 +45,10 @@
   <h3>Create a new quest!</h3>
   <a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
 </div>
+<script>
+var myFunction() {
+getElementsByID('#delete').submit()
+};
+</script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
