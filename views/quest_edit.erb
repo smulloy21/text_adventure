@@ -1,29 +1,54 @@
-<h1>Quest: <%= @quest.name %></h1>
-
-<ul>
-  <% if @scenes.any? %>
-  <% @quest.scenes.each do |scene| %>
-    <% if scene.keyword == "START" %>
-      <li><a href="/<%= @user.id %>/scenes/<%= scene.id %>/edit"><%= scene.name %></a></li>
-      <ul>
-        <div><%= scene.render_menu()%> </div>
-      </ul>
+<%= erb(:partial2)%>
+<div class="container">
+  <h1>Quest: <%= @quest.name %></h1>
+  <h1>Scenes: </h1>
+  <ul>
+    <% if @scenes.any? %>
+    <% @quest.scenes.each do |scene| %>
+      <% if scene.keyword == "START" %>
+        <li><a href="/<%= @user.id %>/scenes/<%= scene.id %>/edit"><%= scene.name %></a></li>
+        <ul>
+          <div><%= scene.render_menu()%> </div>
+        </ul>
+      <% end %>
     <% end %>
+  </ul>
+
+  <% else %>
+    <h3>Create an opening scene: <a href="" data-toggle="modal" data-target="#popUpWindow5"> ? </a></h3>
+    <div class="modal fade" id="popUpWindow5">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+
+          <!-- header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title">Opening Scene</h3>
+          </div>
+
+          <!-- body (form) -->
+          <div class="modal-body">
+            <p> This scene will begin the quest. The name of the scene will be the title, and the description of the scene will provide the bulk of the information to the player. Be sure to keep in mind what choice you want the player to make in order to move into the next scene from this one, and use the scene description to prompt the player to make that choice. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form id="start_scene" action="/<%= @user.id %>/scenes/new" method="post">
+      <input type="hidden" name="quest_id" value="<%= @quest.id %>">
+      <input type="text" name="name" id="name" placeholder="Scene name"><br>
+      <input type="text" name="synopsis" style="width: 310px;" placeholder="Add a short synopsis"><br>
+      <textarea name="description" rows="8" cols="40" form="start_scene" placeholder="Scene description/prompt"></textarea><br>
+      <button class="btn btn-default" type="submit" name="button">Submit</button>
+    </form>
   <% end %>
-</ul>
-
-<% else %>
-  <h3>Create an opening scene:</h3>
-  <form id="start_scene" action="/<%= @user.id %>/scenes/new" method="post">
-    <input type="hidden" name="quest_id" value="<%= @quest.id %>">
-    <input type="text" name="name" id="name" placeholder="Scene name"><br>
-    <input type="text" name="synopsis" style="width: 310px;" placeholder="Add a short synopsis"><br>
-    <textarea name="description" rows="8" cols="40" form="start_scene" placeholder="Scene description/prompt"></textarea><br>
-    <button class="btn btn-default" type="submit" name="button">Submit</button>
+  <br>
+  <br>
+  <form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/delete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button class="btn btn-default" type="submit" name="button">Delete quest</button>
   </form>
-<% end %>
+</div>
 
-<form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/delete" method="post">
-  <input type="hidden" name="_method" value="delete">
-  <button type="submit" name="button">Delete quest</button>
-</form>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

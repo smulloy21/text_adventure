@@ -1,109 +1,144 @@
-<h1>Scene: <%= @scene.name %></h1>
+<%= erb(:partial2)%>
+<div class="container text-center">
+  <h1>Scene: <%= @scene.name %></h1>
 
-<h3>Description</h3>
-<p>
-  <%= @scene.description %>
-</p>
+  <h3>Description <a href="" data-toggle="modal" data-target="#popUpWindow4"> ? </a></h3>
+  <div class="modal fade" id="popUpWindow4">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
-<script>
-$(document).ready(function(){
-  $("#toggle_edit").click(function(){
-    $("#update_container").toggle();
-  });
-});
-</script>
+        <!-- header -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 class="modal-title">Description</h3>
+        </div>
 
-<button id="toggle_edit"> Edit Scene </button>
-<div id="update_container" style="display:none;">
-<h4>Edit name:</h4>
-  <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_name" method="post">
-    <input type="hidden" name="_method" value="patch">
-    <input type="text" name="name" id="name" required>
-    <button class="btn btn-default" type="submit" name="button">Edit</button>
-  </form>
-<h4>Edit description:</h4>
-  <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_description" method="post">
-    <input type="hidden" name="_method" value="patch">
-    <input type="text" name="description" id="description" required>
-    <button class="btn btn-default" type="submit" name="button">Edit</button>
-  </form>
-<h4>Delete scene</h4>
-  <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/delete" method="post">
-    <input type="hidden" name="_method" value="delete">
-    <button class="btn btn-danger" type="submit" name="button">Delete</button>
-  </form>
-</div>
-<br>
-<br>
-<div>
-    <!-- loop to output observations -->
-    <% if @scene.observations.any? %>
-      <ul>
-        <% @scene.observations.each do |observation| %>
-          <li> <%= observation.keyword %> - <%= observation.name %> - <%= observation.description %> - Required: <%= observation.required %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p> No observations exist for this scene, yet </p>
-    <% end %>
-    <h4> Observations <a href="" data-toggle="modal" data-target="#popUpWindow3"> ? </a></h4>
-    <div class="modal fade" id="popUpWindow3">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- header -->
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 class="modal-title">Observation</h3>
-          </div>
-
-          <!-- body (form) -->
-          <div class="modal-body">
-            <p> <i>An observation is an opportunity for the player to gain more knowledge about the scene they are in</i> - it does not take them to a new scene, but they can learn more to help them make decisions.  </p>
-          </div>
+        <!-- body (form) -->
+        <div class="modal-body">
+          <p> The description is where a player will get the bulk of the information about a scene. When writing or editing a description, always keep in mind what the keyword of the next scene (or scenes) will be, in order to effectively prompt your players to use the correct (i.e. logical) keywords. </p>
         </div>
       </div>
     </div>
-
-    <form action ="/scenes/<%= @scene.id %>/add_observation"method="post">
-      <input type="text" name="keyword" placeholder="Observation keyword"><br>
-
-      <input type="text" name="name" placeholder="Observation name"><br>
-
-      <input type="text" name="description" placeholder="Observation Description"><br>
-
-      <button type="submit">Add observation</button>
-
-    </form>
-    <!-- form to add observations -->
-</div>
-<br>
-<% if @scene.previous_scene != nil %>
-  <h3>Previous Scene:</h3>
-  <h4><a href="/<%= @user.id %>/scenes/<%= @scene.previous_scene %>/edit"><%= Scene.find(@scene.previous_scene).name%></a></h4>
+  </div>
   <p>
-    <%= Scene.find(@scene.previous_scene).description %>
+    <%= @scene.description %>
   </p>
-<% end %>
 
-<% if @scene.options.any? %>
-<h3>Following Scenes:</h3>
-  <% @scene.options.each do |option| %>
-    <h4><%= Scene.find(option.id).keyword%>: <a href="/<%= @user.id %>/scenes/<%= option.id %>/edit"><%= Scene.find(option.id).name%></a></h4>
-    <p>
-      <%= Scene.find(option.id).description %>
-    </p>
-  <% end %>
-<% end %>
+  <script>
+  $(document).ready(function(){
+    $("#toggle_edit").click(function(){
+      $("#update_container").toggle();
+    });
+  });
+  </script>
 
-<h4>Add a following scene to <%= @scene.name %></h4>
-  <form id="next_scene" action="/<%= @user.id %>/scenes/add" method="post">
-    <input type="hidden" name="quest_id" value="<%= @scene.quest_id %>">
-    <input type="hidden" name="previous_scene" value="<%= @scene.id %>">
-    <input type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)" required><br>
-    <input type="text" name="name" id="name" placeholder="Scene Name"><br>
-    <input type="test" name="description" id="description" placeholder="Description/Prompt"><br>
-    <button type="submit" class="btn btn-default" name="button">Submit</button>
-  </form>
+  <button class="btn btn-default" id="toggle_edit"> Edit Scene </button>
+  <div id="update_container" style="display:none;">
+  <h4>Edit name:</h4>
+    <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_name" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <input type="text" name="name" id="name" required>
+      <button class="btn btn-default" type="submit" name="button">Edit</button>
+    </form>
+  <h4>Edit description:</h4>
+    <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/edit_description" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <input type="text" name="description" id="description" required>
+      <button class="btn btn-default" type="submit" name="button">Edit</button>
+    </form>
+  <h4>Delete scene</h4>
+    <form class="" action="/<%= @user.id %>/scenes/<%= @scene.id %>/delete" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <button class="btn btn-danger" type="submit" name="button">Delete</button>
+    </form>
+  </div>
+  <br>
+  <br>
+  <div>
+      <!-- loop to output observations -->
+      <h4> Observations <a href="" data-toggle="modal" data-target="#popUpWindow3"> ? </a></h4>
+      <div class="modal fade" id="popUpWindow3">
+        <div class="modal-dialog">
+          <div class="modal-content">
 
-<h2>Quest: <a href="/<%= @user.id %>/quests/<%= Quest.find(@scene.quest_id).id %>/edit"><%= Quest.find(@scene.quest_id).name %></a></h2>
+            <!-- header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Observation</h3>
+            </div>
+
+            <!-- body (form) -->
+            <div class="modal-body">
+              <p> An observation is an opportunity for the player to gain more knowledge about the scene they are in. An observation does not take the player to a new scene, but they can learn more to help them make decisions.  </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if @scene.observations.any? %>
+        <ul>
+          <% @scene.observations.each do |observation| %>
+            <li> <%= observation.keyword %> - <%= observation.name %> - <%= observation.description %> - Required: <%= observation.required %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p> No observations exist for this scene, yet </p>
+      <% end %>
+      <h4>Add an observation:</h4>
+      <form action ="/scenes/<%= @scene.id %>/add_observation"method="post">
+        <div class="col-xs-4 centered"></div>
+        <div class="col-xs-4 centered">
+        <input class="form-control" type="text" name="keyword" placeholder="Observation keyword"><br>
+        <input class="form-control" type="text" name="name" placeholder="Observation name"><br>
+        <input class="form-control" type="text" name="description" placeholder="Observation Description"><br>
+        <button class="btn btn-default" type="submit">Add Observation</button>
+        </div>
+        <div class="col-xs-4 centered"></div>
+
+
+
+
+      </form>
+      <!-- form to add observations -->
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-6">
+      <h3>Previous Scene:</h3>
+      <% if @scene.previous_scene != nil %>
+        <h4><a href="/<%= @user.id %>/scenes/<%= @scene.previous_scene %>/edit"><%= Scene.find(@scene.previous_scene).name%></a></h4>
+        <p>
+          <%= Scene.find(@scene.previous_scene).description %>
+        </p>
+      <% else %>
+        <h3>This is the opening scene.</h3>
+      <% end %>
+    </div>
+    <div class="col-xs-6 centered">
+      <h3>Next Scenes:</h3>
+      <% if @scene.options.any? %>
+        <% @scene.options.each do |option| %>
+          <h4><%= Scene.find(option.id).keyword%>: <a href="/<%= @user.id %>/scenes/<%= option.id %>/edit"><%= Scene.find(option.id).name%></a></h4>
+          <p>
+            <%= Scene.find(option.id).description %>
+          </p>
+        <% end %>
+      <% else %>
+        <h5>There are no next scenes</h5>
+      <% end %>
+
+      <h4>Add a following scene to <%= @scene.name %></h4>
+        <form id="next_scene" action="/<%= @user.id %>/scenes/add" method="post">
+          <input type="hidden" name="quest_id" value="<%= @scene.quest_id %>">
+          <input type="hidden" name="previous_scene" value="<%= @scene.id %>">
+          <input class="form-control" type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)" required><br>
+          <input class="form-control" type="text" name="name" id="name" placeholder="Scene Name"><br>
+          <textarea class="form-control" type="test" name="description" id="description" placeholder="Description/Prompt"></textarea><br>
+          <button class="btn btn-default" type="submit" class="btn btn-default" name="button">Submit</button>
+        </form>
+      </div>
+  </div>
+  <h2>Quest: <a href="/<%= @user.id %>/quests/<%= Quest.find(@scene.quest_id).id %>/edit"><%= Quest.find(@scene.quest_id).name %></a></h2>
+</div>
+
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
