@@ -7,7 +7,7 @@
   <% @quests.each do |quest| %>
     <% quest.scenes.each do |scene| %>
       <% if scene.keyword == "START" %>
-        <li><a href="/characters/<%= @character.id %>/scenes/<%= scene.id %>"><%= quest.name %></a> Created by: <%= User.find(quest.user_id).name %> - <br><%= quest.synopsis %></li>
+        <li><a href="/characters/<%= @character.id %>/scenes/<%= scene.id %>"><%= quest.name %></a> Created by: <%= User.find(quest.user_id).name %> <br><%= quest.synopsis %></li>
       <% end %>
     <% end %>
   <% end %>

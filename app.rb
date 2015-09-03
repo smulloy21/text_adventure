@@ -55,7 +55,7 @@ end
 post('/:user_id/quests/new') do
   @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
-  Quest.create({:name => name, :user_id => @user.id})
+  Quest.create({:name => name, :user_id => @user.id, :rating => 0, :times_rated => 0})
   redirect('/' + @user.id.to_s + '/admin')
 end
 
