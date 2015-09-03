@@ -241,14 +241,12 @@ end
 post('/characters/:character_id/scenes/:id/rating') do
   @character = Character.find(params.fetch('character_id').to_i)
   @user = @character.user
-  scene_id = params.fetch('id').to_i
-  rating = params.fetch('rating')
-  scene = Scene.find(scene_id)
-  quest = Quest.find(scene.quest_id)
-  quest.times_rated != nil ? times_rated = quest.times_rated : times_rated = 0
-  times_rated = 1 + times_rated
-  quest.rating != nil ? rating = quest.rating : rating = 0
-  rating = rating + quest.rating()
+  quest = Quest.find(Scene.find(params.fetch('id').to_i).quest_id)
+  times_rated = 1 + quest.times_rated
+  rating = (params.fetch("rating").to_i) + quest.rating
+
+
   quest.update({:times_rated => times_rated, :rating => rating})
+
   redirect('/characters/' + @character.id.to_s)
 end
