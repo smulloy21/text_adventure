@@ -1,4 +1,6 @@
-<h1><%= @scene.name %></h1>
+<%= erb(:partial2)%>
+<div class="container">
+  <h1><%= @scene.name %></h1>
 <h3><%= @scene.description %></h3>
 
 <p>
@@ -9,17 +11,18 @@
 <br>
 
 <% if @scene.options.any? %>
-  <form class="" action="/scenes/<%= @scene.id %>/interpret" method="get">
+  <form class="" action="/characters/<%= @character.id %>/scenes/<%= @scene.id %>/interpret" method="get">
     <input type="text" name="text" id="text" autofocus>
     <button type="submit">Submit</button>
   </form>
 <% else %>
-<form action="/scenes/<%= @scene.id %>/rating" method='post'>
-  <input type="radio" name="rating" value=1>*<br>
-  <input type="radio" name="rating" value=2>**<br>
-  <input type="radio" name="rating" value=3>***<br>
-  <input type="radio" name="rating" value=4>****<br>
-  <button type="submit">Submit</button>
-</form>
-  <h4><a href="/">Start Over</a></h4>
+  <form action="/characters/<%= @character.id%>/scenes/<%= @scene.id %>/rating" method='post'>
+    <input type="radio" name="rating" value=1>*<br>
+    <input type="radio" name="rating" value=2>**<br>
+    <input type="radio" name="rating" value=3>***<br>
+    <input type="radio" name="rating" value=4>****<br>
+    <button type="submit">Submit</button>
+  </form>
+  <h4><a href="/users/<%= @user.id %>">Start Over</a></h4>
 <% end %>
+</div>

@@ -1,11 +1,15 @@
+<%= erb(:partial2)%>
+<div class="container">
+
 <h1>Welcome, <%= @character.name %>. Choose your quest.</h1>
 
 <ul>
   <% @quests.each do |quest| %>
     <% quest.scenes.each do |scene| %>
       <% if scene.keyword == "START" %>
-        <li><a href="/scenes/<%= scene.id %>"><%= quest.name %></a> - Rating: <%= quest.rating %> Created by: <%= User.find(quest.user_id).name %> - <%= quest.synopsis %></li>
+        <li><a href="/characters/<%= @character.id %>/scenes/<%= scene.id %>"><%= quest.name %></a> Created by: <%= User.find(quest.user_id).name %> - <br><%= quest.synopsis %></li>
       <% end %>
     <% end %>
   <% end %>
 </ul>
+</div>

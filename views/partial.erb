@@ -1,0 +1,102 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+
+  <!-- Logo -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+      <span class="glyphicon glyphicon-menu-hamburger" style="color:white"></span>
+    </button>
+    <a class="navbar-brand" href="#">Adventuretime</a>
+  </div>
+
+  <!-- Menu Items -->
+  <div class="collapse navbar-collapse" id="mainNavBar">
+    <ul class="nav navbar-nav">
+      <li class=""><a href="/">Home</a></li>
+      <li class=""><a href="/admin">Admin</a></li>
+      <li class=""><a href="/about">About</a></li>
+      <li><a href="contact">Contact</a></li>
+
+      <!-- Dropdown Menu -->
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Profile <span class="caret"</span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Friends</a></li>
+            <li><a href="#">Photos</a></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+      </li>
+    </ul>
+
+    <!-- Right Align -->
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="" data-toggle="modal" data-target="#popUpWindow">Login</a></li>
+      <li><a href="" data-toggle="modal" data-target="#popUpWindow2">Signup</a></li>
+    </ul>
+      <div class="modal fade" id="popUpWindow">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Log In</h3>
+            </div>
+
+            <!-- body (form) -->
+            <div class="modal-body">
+              <form action="/login" role="form" method="get">
+                <div class="form-group">
+                  <input type="name" name="name" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+
+
+                <!-- button -->
+                <div class="modal-footer">
+                  <button class="btn btn-primary btn-block">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="popUpWindow2">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Create An Account</h3>
+            </div>
+
+            <!-- body (form) -->
+            <div class="modal-body">
+              <form role="form" action="/login/new" method="post">
+                <div class="form-group">
+                  <input type="name" name="email" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+                </div>
+
+            <!-- button -->
+            <div class="modal-footer">
+              <button class="btn btn-primary btn-block">Submit</button>
+            </div>
+          </form>
+        </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>

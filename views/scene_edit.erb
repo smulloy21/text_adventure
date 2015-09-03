@@ -46,19 +46,31 @@ $(document).ready(function(){
     <% else %>
       <p> No observations exist for this scene, yet </p>
     <% end %>
+    <h4> Observations <a href="" data-toggle="modal" data-target="#popUpWindow3"> ? </a></h4>
+    <div class="modal fade" id="popUpWindow3">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title">Observation</h3>
+          </div>
+
+          <!-- body (form) -->
+          <div class="modal-body">
+            <p> <i>An observation is an opportunity for the player to gain more knowledge about the scene they are in</i> - it does not take them to a new scene, but they can learn more to help them make decisions.  </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form action ="/scenes/<%= @scene.id %>/add_observation"method="post">
-      <label for="keyword">Keyword (one word)</label>
-      <input type="text" name="keyword">
+      <input type="text" name="keyword" placeholder="Observation keyword"><br>
 
-      <label for="name">Name</label>
-      <input type="text" name="name">
+      <input type="text" name="name" placeholder="Observation name"><br>
 
-      <label for="description">Description</label>
-      <input type="text" name="description">
-
-      <label for="required">Required</label>
-      <input type="radio" name="required" value="true"> True, its required
-      <input type="radio" name="required" value="false"> False, not required
+      <input type="text" name="description" placeholder="Observation Description"><br>
 
       <button type="submit">Add observation</button>
 
@@ -88,7 +100,7 @@ $(document).ready(function(){
   <form id="next_scene" action="/<%= @user.id %>/scenes/add" method="post">
     <input type="hidden" name="quest_id" value="<%= @scene.quest_id %>">
     <input type="hidden" name="previous_scene" value="<%= @scene.id %>">
-    <input type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)"><br>
+    <input type="text" name="keyword" id="keyword" placeholder="KEYWORD (one word)" required><br>
     <input type="text" name="name" id="name" placeholder="Scene Name"><br>
     <input type="test" name="description" id="description" placeholder="Description/Prompt"><br>
     <button type="submit" class="btn btn-default" name="button">Submit</button>
