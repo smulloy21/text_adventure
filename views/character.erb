@@ -1,33 +1,44 @@
-<h2>Hi, <%= @user.name %></h2>
+<%= erb(:partial2)%>
+<div class="container">
+  <h2>Hi, <%= @user.name %></h2>
 
-<h3>Play a quest! Choose a character to begin:</h3>
-<% if @user.characters.any? %>
-  <h4>Here are your current characters:</h4>
-  <ul>
-    <% @user.characters.each do |character| %>
-      <li><a href="/characters/<%= character.id %>"><%= character.name %></a></li>
-    <% end %>
-  </ul>
-<% end %>
-<h4>Create a new character:</h4>
-<form class="" action="/characters/new" method="post">
-  <input type="hidden" name="user_id" value="<%= @user.id %>">
-  <label for="name">Character Name:</label>
-  <input type="text" name="name" id="name">
-  <button type="submit" name="button">Submit</button>
-</form>
+  <h3>Play a quest! Choose a character to begin:</h3>
+  <% if @user.characters.any? %>
+    <h4>Here are your current characters:</h4>
+    <ul>
+      <% @user.characters.each do |character| %>
+        <li>
+          <a href="/characters/<%= character.id %>"><%= character.name %></a>
+          <span>
+            <form class="" style="display:inline;" action="/users/<%= @user.id %>" method="post">
+              <input type="hidden" name="_method" value="delete">
+              <span type="submit"class="glyphicon glyphicon-remove"></span>
+            </form>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+  <h4>Create a new character:</h4>
+  <form class="" action="/characters/new" method="post">
+    <input type="hidden" name="user_id" value="<%= @user.id %>">
+    <label for="name">Character Name:</label>
+    <input type="text" name="name" id="name">
+    <button type="submit" name="button">Submit</button>
+  </form>
 
-<br>
-<br>
+  <br>
+  <br>
 
-<% if @user.quests.any? %>
-  <h3>Quests you've created:</h3>
-  <ul>
-    <% @user.quests.each do |quest| %>
-      <li><a href="/<%= @user.id %>/quests/<%= quest.id %>/edit"><%= quest.name %></a></li>
-    <% end %>
-  </ul>
-<% end %>
+  <% if @user.quests.any? %>
+    <h3>Quests you've created:</h3>
+    <ul>
+      <% @user.quests.each do |quest| %>
+        <li><a href="/<%= @user.id %>/quests/<%= quest.id %>/edit"><%= quest.name %></a></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<h3>Create a new quest!</h3>
-<a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
+  <h3>Create a new quest!</h3>
+  <a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
+</div>
