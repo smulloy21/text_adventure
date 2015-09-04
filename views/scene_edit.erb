@@ -1,3 +1,8 @@
+<style>
+  body {
+    background-image: url(<%= @background %>)
+  }
+</style>
 <%= erb(:partial2)%>
 <div class="container">
   <div class="row">
@@ -35,12 +40,13 @@
       <p>
         <%= @scene.description %>
       </p>
-      <h3>Background image for scene:</h3>
-      <% if @scene.background != nil %>
+      <h3>Background image:</h3>
+      <% if @scene.background != 'https://highfantasyaddict.files.wordpress.com/2014/11/world.jpg' %>
         <%= @scene.background %>
       <% else %>
         <h4>Default</h4>
       <% end %>
+      <br>
       <br>
       <script>
       $(document).ready(function(){
@@ -105,11 +111,12 @@
             <br>
           <% end %>
         <% else %>
+          <br>
           <p> No observations exist for this scene, yet </p>
         <% end %>
-        <h4>Add an observation:</h4><br>
+        <!-- <h4>Add an observation:</h4><br> -->
         <form action ="/<%= @user.id %>/scenes/<%= @scene.id %>/add_observation" method="post">
-          <input class="form-control" type="text" name="keyword" placeholder="Observation keyword"><br>
+          <input class="form-control" type="text" name="keyword" placeholder="Observation keyword (one word)"><br>
           <input class="form-control" type="text" name="name" placeholder="Observation name"><br>
           <textarea class="form-control" type="test" name="description" id="description" placeholder="Observation description"></textarea><br>
           <button class="btn btn-default" type="submit">Add Observation</button>
@@ -130,6 +137,7 @@
       <% end %>
 
       <h4>Add a next scene for "<%= @scene.name %>"</h4>
+      <br>
       <form id="next_scene" action="/<%= @user.id %>/scenes/add" method="post">
         <input type="hidden" name="quest_id" value="<%= @scene.quest_id %>">
         <input type="hidden" name="previous_scene" value="<%= @scene.id %>">
