@@ -127,7 +127,6 @@ post('/:user_id/scenes/add') do
   else
     background = "https://highfantasyaddict.files.wordpress.com/2014/11/world.jpg"
   end
-  binding.pry
   @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id, :background => background})
   redirect('/' + @user.id.to_s + '/scenes/' + @scene.previous_scene.to_s + '/edit')
 end
