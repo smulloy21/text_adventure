@@ -1,54 +1,46 @@
 <%= erb(:partial2)%>
 <div class="container">
-  <h2>Hi, <%= @user.name %></h2>
-
-  <h3>Play a quest! Choose a character to begin:</h3>
-  <% if @user.characters.any? %>
-    <h4>Here are your current characters:</h4>
-    <ul>
-      <% @user.characters.each do |character| %>
-        <li>
-          <a href="/characters/<%= character.id %>"><%= character.name %></a> <a href="/users/<%= @user.id %>/delete_character/<%= character.id %>"><span style="color:red;" class="glyphicon glyphicon-remove"></span></a>
-          <!-- <span>
-            <form id="delete" style="display:inline;" action="/users/<%= @user.id %>/delete_character/<%= character.id %>" method="post">
-              <input type="hidden" name="_method" value="delete">
-              <span onclick="myFunction()" class="glyphicon glyphicon-remove"></span>
-            </form>
-          </span> -->
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-  <h4>Create a new character:</h4>
-  <form class="" action="/characters/new" method="post">
-    <div class="col-xs-4 centered">
-    <input type="hidden" name="user_id" value="<%= @user.id %>">
-    <label for="name">Character Name:</label>
-    <input class="form-control" type="text" placeholder="Character Name" name="name" id="name">
-    <button class="btn btn-default" type="submit" class="btn btn-default" name="button">Submit</button><br>
+  <div class="row text-center">
+    <h2>Hi, <%= @user.name %></h2>
   </div>
-  </form>
-
-  <br>
-  <br>
-
-  <% if @user.quests.any? %>
-  <br>
-    <h3>Quests you've created:</h3>
-    <ul>
-      <% @user.quests.each do |quest| %>
-        <li><a href="/<%= @user.id %>/quests/<%= quest.id %>/edit"><%= quest.name %></a></li>
+  <div class="row text-center">
+    <div class="col-xs-6">
+      <h2>Play a quest!</h2>
+      <% if @user.characters.any? %>
+        <h3>Here are your current characters:</h3>
+        <% @user.characters.each do |character| %>
+          <h4>
+            <a href="/characters/<%= character.id %>"><%= character.name %></a> <a href="/users/<%= @user.id %>/delete_character/<%= character.id %>"><span style="color:red;" class="glyphicon glyphicon-remove"></span></a>
+          </h4>
+        <% end %>
+      <% else %>
+        <h3>You have not created any characters.</h3>
       <% end %>
-    </ul>
-  <% end %>
+      <h3>Create a new character:</h3>
+      <form class="" action="/characters/new" method="post">
+        <input type="hidden" name="user_id" value="<%= @user.id %>">
+        <input type="text" placeholder="Character Name" name="name" id="name">
+        <button class="btn btn-default" type="submit" class="btn btn-default" name="button">Submit</button><br>
+      </form>
+    </div>
+    <div class="col-xs-6">
+      <h2>Create / Edit a Quest</h2>
+      <h3>Quests you've created:</h3>
+      <% if @user.quests.any? %>
+        <% @user.quests.each do |quest| %>
+          <h4><a href="/<%= @user.id %>/quests/<%= quest.id %>/edit"><%= quest.name %></a>  (<%= (quest.rating / quest.times_rated) %>)</h4>
+        <% end %>
+      <% else %>
+        <h4>You have not created any quests.</h4>
+      <% end %>
 
-  <h3>Create a new quest!</h3>
-  <a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
-</div>
-<script>
-var myFunction() {
-getElementsByID('#delete').submit()
-};
-</script>
+      <h3>Create a new quest:</h3>
+      <a href="/<%= @user.id %>/admin"><button class="btn btn-default">Create</button></a>
+    </div>
+  </div>
+
+<br>
+<br>
+
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

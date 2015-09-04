@@ -1,8 +1,10 @@
 <%= erb(:partial2)%>
-<div class="container">
+<div class="container text-center">
   <h1>Quest: <%= @quest.name %></h1>
-  <h1>Scenes: </h1>
-  <ul>
+  <h2>Synopsis:</h2>
+  <h5><%= @quest.synopsis %></h5>
+  <h2>Scenes: </h2>
+  <ul class="text-left" style="width: 50%; margin: 0 auto;">
     <% if @scenes.any? %>
     <% @quest.scenes.each do |scene| %>
       <% if scene.keyword == "START" %>
@@ -13,7 +15,6 @@
       <% end %>
     <% end %>
   </ul>
-
   <% else %>
     <h3>Create an opening scene: <a href="" data-toggle="modal" data-target="#popUpWindow5"> ? </a></h3>
     <div class="modal fade" id="popUpWindow5">
@@ -29,25 +30,52 @@
 
           <!-- body (form) -->
           <div class="modal-body">
-            <p> This scene will begin the quest. The name of the scene will be the title, and the description of the scene will provide the bulk of the information to the player. Be sure to keep in mind what choice you want the player to make in order to move into the next scene from this one, and use the scene description to prompt the player to make that choice. </p>
+            <p> Players will see the scene's name and description, and decide what to type based on that information. Try to keep in mind what choice you want the player to make, and prompt them to input the logical choice keywords. </p>
+            <p> Note: After testing your quest, you can always go back and edit a scene. </p>
           </div>
         </div>
       </div>
     </div>
-    <form id="start_scene" action="/<%= @user.id %>/scenes/new" method="post">
-      <input type="hidden" name="quest_id" value="<%= @quest.id %>">
-      <input type="text" name="name" id="name" placeholder="Scene name"><br>
-      <input type="text" name="synopsis" style="width: 310px;" placeholder="Add a short synopsis"><br>
-      <textarea name="description" rows="8" cols="40" form="start_scene" placeholder="Scene description/prompt"></textarea><br>
-      <button class="btn btn-default" type="submit" name="button">Submit</button>
-    </form>
+    <!-- <div class="row">
+      <div class="col-xs-6 col-xs-offset-3" -->
+        <form id="start_scene" action="/<%= @user.id %>/scenes/new" method="post">
+          <input type="hidden" name="quest_id" value="<%= @quest.id %>">
+          <input class="form-control" type="text" name="name" id="name" placeholder="Scene name"><br>
+          <textarea class="form-control" name="description" rows="8" cols="40" form="start_scene" placeholder="Scene description/prompt"></textarea><br>
+          <input class="form-control" type="text" name="background" id="background" placeholder="URL for background image"><br>
+          <button class="btn btn-default" type="submit" name="button">Submit</button>
+        </form>
+      <!-- </div>
+    </div> -->
   <% end %>
   <br>
   <br>
-  <form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/delete" method="post">
-    <input type="hidden" name="_method" value="delete">
-    <button class="btn btn-default" type="submit" name="button">Delete quest</button>
-  </form>
+  <script>
+  $(document).ready(function(){
+    $("#toggle_edit").click(function(){
+      $("#update_container2").toggle();
+    });
+  });
+  </script>
+  <button class="btn btn-default" id="toggle_edit"> Edit Quest </button>
+  <div id="update_container2" style="display:none;">
+    <h4>Edit name:</h4>
+      <form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/edit_name" method="post">
+        <input type="hidden" name="_method" value="patch">
+        <input type="text" name="name" id="name" required>
+        <button class="btn btn-default" type="submit" name="button">Edit</button>
+      </form>
+    <h4>Edit synopsis:</h4>
+      <form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/edit_description" method="post">
+        <input type="hidden" name="_method" value="patch">
+        <input type="text" name="synopsis" id="synopsis" required>
+        <button class="btn btn-default" type="submit" name="button">Edit</button>
+      </form>
+      <form class="" action="/<%= @user.id %>/quests/<%= @quest.id %>/delete" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <button class="btn btn-default" type="submit" name="button">Delete quest</button>
+      </form>
+  </div>
 </div>
 
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

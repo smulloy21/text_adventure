@@ -1,3 +1,8 @@
+<style>
+  body {
+    background-image: url(<%= @background %>)
+  }
+</style>
 <%= erb(:partial2)%>
 <div class="container">
   <h1><%= @scene.name %></h1>
@@ -13,17 +18,25 @@
 <% if @scene.options.any? %>
   <form class="" action="/characters/<%= @character.id %>/scenes/<%= @scene.id %>/interpret" method="get">
     <input type="text" name="text" id="text" autofocus>
-    <button type="submit">Submit</button>
+    <button class="btn btn-default" type="submit">Submit</button>
   </form>
 <% else %>
-  <form action="/characters/<%= @character.id%>/scenes/<%= @scene.id %>/rating" method='post'>
-    <input type="radio" name="rating" value=1>*<br>
-    <input type="radio" name="rating" value=2>**<br>
-    <input type="radio" name="rating" value=3>***<br>
-    <input type="radio" name="rating" value=4>****<br>
-    <input type="radio" name="rating" value=5>*****<br>
-    <button type="submit">Submit</button>
-  </form>
   <h4><a href="/users/<%= @user.id %>">Start Over</a></h4>
+  <br>
+  <br>
+  <h4>Rate this quest:</h4>
+  <br>
+  <form action="/characters/<%= @character.id%>/scenes/<%= @scene.id %>/rating" method='post'>
+    <select style="width: 100px;" id='rating' name='rating' type='text' class="">
+      <option class="option" value="5">*****</option>
+      <option class="option" value="4">****</option>
+      <option class="option" value="3">***</option>
+      <option class="option" value="2">**</option>
+      <option class="option" value="1">*</option>
+    </select>
+    <br>
+    <br>
+    <button class="btn btn-default btn-sm" type="submit">Submit</button>
+  </form>
 <% end %>
 </div>

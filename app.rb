@@ -62,7 +62,8 @@ end
 post('/:user_id/quests/new') do
   @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
-  Quest.create({:name => name, :user_id => @user.id, :rating => 0, :times_rated => 0})
+  synopsis = params.fetch('synopsis')
+  Quest.create({:name => name, :user_id => @user.id, :rating => 0, :times_rated => 0, :synopsis => synopsis})
   redirect('/' + @user.id.to_s + '/admin')
 end
 
@@ -71,6 +72,22 @@ get('/:user_id/quests/:id/edit') do
   @quest = Quest.find(params.fetch('id').to_i)
   @scenes = @quest.scenes.sort_by(&:created_at)
   erb(:quest_edit)
+end
+
+patch('/:user_id/quests/:id/edit_name') do
+  @user = User.find(params.fetch('user_id').to_i)
+  @quest = Quest.find(params.fetch('id').to_i)
+  name = params.fetch('name')
+  @quest.update({:name => name})
+  redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
+end
+
+patch('/:user_id/quests/:id/edit_description') do
+  @user = User.find(params.fetch('user_id').to_i)
+  @quest = Quest.find(params.fetch('id').to_i)
+  synopsis = params.fetch('synopsis')
+  @quest.update({:synopsis => synopsis})
+  redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
 end
 
 delete('/:user_id/quests/:id/delete') do
@@ -89,9 +106,12 @@ post('/:user_id/scenes/new') do
   keyword = "START"
   name = params.fetch('name')
   description = params.fetch('description')
-  synopsis = params.fetch('synopsis')
-  @quest.update({:synopsis=> synopsis})
-  Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => nil})
+  if params.fetch('background') != nil
+    background = params.fetch('background')
+  else
+    background = nil
+  end
+  Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => nil, :background => background})
   redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
 end
 
@@ -102,8 +122,13 @@ post('/:user_id/scenes/add') do
   keyword = params.fetch('keyword')
   params.fetch('name') != "" ? name = params.fetch('name') : name = params.fetch('keyword')
   description = params.fetch('description')
-  @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id})
-  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
+  if params.fetch('background') != nil
+    background = params.fetch('background')
+  else
+    background = nil
+  end
+  @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id, :background => background})
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.previous_scene.to_s + '/edit')
 end
 
 get('/:user_id/scenes/:id/edit') do
@@ -128,6 +153,14 @@ patch('/:user_id/scenes/:id/edit_description') do
   redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
+patch('/:user_id/scenes/:id/edit_bg') do
+  @user = User.find(params.fetch('user_id').to_i)
+  @scene = Scene.find(params.fetch('id').to_i)
+  background = params.fetch('background')
+  @scene.update({:background => background})
+  redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
+end
+
 delete('/:user_id/scenes/:id/delete') do
   @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
@@ -146,8 +179,7 @@ post('/:user_id/scenes/:id/add_observation') do
   name = params.fetch('name')
   keyword = params.fetch('keyword')
   description = params.fetch('description')
-  required = params.fetch('required')
-  Observation.create({:name => name, :keyword => keyword, :description => description, :required => required, :scene_id => @scene.id})
+  Observation.create({:name => name, :keyword => keyword, :description => description, :scene_id => @scene.id})
   redirect('/' + @user.id.to_s + '/scenes/' + @scene.id.to_s + '/edit')
 end
 
@@ -156,7 +188,7 @@ end
 get('/characters/:id') do
   @character = Character.find(params.fetch('id').to_i)
   @user = @character.user
-  @quests = Quest.all()
+  @quests = Quest.all().sort_by(&:rating).reverse
   @@div = ""
   erb(:quest)
 end
@@ -165,17 +197,10 @@ post('/characters/new') do
   @user = User.find(params.fetch('user_id').to_i)
   name = params.fetch('name')
   @character = Character.create({:name => name, :user_id => @user.id})
-  @quests = Quest.all
+  @quests = Quest.all.sort_by(&:rating)
   @@div = ""
   erb(:quest)
 end
-
-# delete('users/:user_id/delete_character/:character_id') do
-#   @character = Character.find(params.fetch('character_id').to_i)
-#   @user = User.find(params.fetch('user_id').to_i)
-#   @character.destroy()
-#   redirect('/users/' + @user.id.to_s)
-# end
 
 get('/users/:user_id/delete_character/:character_id') do
   @character = Character.find(params.fetch('character_id').to_i)
@@ -188,28 +213,25 @@ get('/characters/:character_id/scenes/:id') do
   @character = Character.find(params.fetch('character_id').to_i)
   @user = @character.user
   @scene = Scene.find(params.fetch('id').to_i)
-  @@can_continue = @scene.required_observations?
+  if @scene.background != nil
+    @background = @scene.background
+  else
+    @background = 'http://img06.deviantart.net/93d4/i/2009/022/3/e/steampunk_octopus_by_raybender.jpg'
+  end
   erb(:scene)
 end
 
 get('/characters/:character_id/scenes/:id/interpret') do
   @character = Character.find(params.fetch('character_id').to_i)
   @user = @character.user
-  destructive_verbs = ['break', 'kick', 'punch', 'hit', 'pick up', 'pick']
-  going_verbs = ['go', 'walk', 'jump', 'climb', 'slide', 'somersault', ]
+  destructive_verbs = ['break', 'kick', 'punch', 'hit', 'pick up', 'pick', 'screw', 'fuck', 'bodyslam', 'body slam', 'destroy', 'kill', 'maim', 'hurt', 'punt', 'dropkick', 'throw', 'beat up', 'shoot', 'slap', 'shatter', 'cut', 'strangle', 'suffocate', 'throttle']
   @scene = Scene.find(params.fetch('id').to_i)
   text = params.fetch('text')
   @scene.options.each do |option|
-    going_verbs.each do |verb|
-      if text.downcase.include?(verb) && text.downcase.include?(option.keyword.downcase)
-        @@div = ""
-        redirect('/characters/' + @character.id.to_s + '/scenes/' + option.id.to_s)
-      end
+    if text.downcase.include?(option.keyword.downcase)
+      @@div = ""
+      redirect('/characters/' + @character.id.to_s + '/scenes/' + option.id.to_s)
     end
-  end
-  if text.downcase.include?('back')
-    @@div = ""
-    redirect('/characters/' + @character.id.to_s + '/scenes/' + @scene.previous_scene.to_s)
   end
   destructive_verbs.each do |verb|
     if text.downcase.include?(verb)
@@ -221,6 +243,10 @@ get('/characters/:character_id/scenes/:id/interpret') do
     if text.include?(observation.keyword)
       redirect('/characters/' + @character.id.to_s + '/scenes/' + @scene.id.to_s + '/observations/' + observation.id.to_s)
     end
+  end
+  if text.downcase.include?('back')
+    @@div = ""
+    redirect('/characters/' + @character.id.to_s + '/scenes/' + @scene.previous_scene.to_s)
   end
   @@div = "You can't do that."
   redirect('/characters/' + @character.id.to_s + '/scenes/' + @scene.id.to_s)

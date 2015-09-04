@@ -1,15 +1,44 @@
 <%= erb(:partial2)%>
 <div class="container">
-
-<h1>Welcome, <%= @character.name %>. Choose your quest.</h1>
-
-<ul>
-  <% @quests.each do |quest| %>
-    <% quest.scenes.each do |scene| %>
-      <% if scene.keyword == "START" %>
-        <li><a href="/characters/<%= @character.id %>/scenes/<%= scene.id %>"><%= quest.name %></a> (<%= quest.rating / quest.times_rated %>) Created by: <%= User.find(quest.user_id).name %> <br><%= quest.synopsis %></li>
+  <div class="col-xs-8 col-xs-offset-2">
+    <div class="row text-center">
+      <h1>Welcome, <%= @character.name %>. Choose your quest.</h1>
+    </div>
+    <br>
+    <br>
+    <% @quests.each do |quest| %>
+      <% quest.scenes.each do |scene| %>
+        <% if scene.keyword == "START" %>
+          <div class="row">
+            <div class="col-xs-2">
+              <a href="/characters/<%= @character.id %>/scenes/<%= scene.id %>"><h4><%= quest.name %></h4></a>
+            </div>
+            <div class="col-xs-3">
+              <h4>By: <%= User.find(quest.user_id).name %></h4>
+            </div>
+            <div class="col-xs-3 col-xs-offset-4 text-right">
+              <% if quest.rating > 0.0 %>
+                <h4><%= (quest.rating / quest.times_rated) %> (<%= quest.times_rated %>
+              <% else %>
+                <h4>0 (<%= quest.times_rated %>
+              <% end %>
+              <% if quest.times_rated == 1 %>
+                review)</h4>
+              <% else %>
+                reviews)</h4>
+              <% end %>
+              <br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6 col-xs-offset-2">
+              <h4><%= quest.synopsis %></h4>
+            </div>
+          </div>
+          <br>
+          <br>
+        <% end %>
       <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </div>
 </div>
