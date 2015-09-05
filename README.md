@@ -6,7 +6,7 @@
 
 ## Description
 
-_Use the admin page to create or edit a quest. From the home page, enter a name and choose a quest to begin._
+_From the home page, you can log in or sign up by creating a username and password. From your user landing page you can select or create a new character to play any quest (which are ranked by rating, and display the creator's username and a brief synopsis). After completing a quest, you can add a rating to it, and start over. Also from your user landing page, you can see the quests you've created and their ratings. You can click on one of your quests to edit it, or you can create a new quest._
 
 ## Setup
 
