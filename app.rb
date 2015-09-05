@@ -104,10 +104,10 @@ post('/:user_id/scenes/new') do
   keyword = "START"
   name = params.fetch('name')
   description = params.fetch('description')
-  if params.fetch('background') != nil
+  if params.fetch('background') != ""
     background = params.fetch('background')
   else
-    background = nil
+    background = "https://highfantasyaddict.files.wordpress.com/2014/11/world.jpg"
   end
   Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => nil, :background => background})
   redirect('/' + @user.id.to_s + '/quests/' + @quest.id.to_s + '/edit')
@@ -120,10 +120,10 @@ post('/:user_id/scenes/add') do
   keyword = params.fetch('keyword')
   params.fetch('name') != "" ? name = params.fetch('name') : name = params.fetch('keyword')
   description = params.fetch('description')
-  if params.fetch('background') != nil
+  if params.fetch('background') != ""
     background = params.fetch('background')
   else
-    background = nil
+    background = "https://highfantasyaddict.files.wordpress.com/2014/11/world.jpg"
   end
   @scene = Scene.create({:name => name, :keyword => keyword, :description => description, :quest_id => @quest.id, :previous_scene => previous_id, :background => background})
   redirect('/' + @user.id.to_s + '/scenes/' + @scene.previous_scene.to_s + '/edit')
@@ -132,6 +132,7 @@ end
 get('/:user_id/scenes/:id/edit') do
   @user = User.find(params.fetch('user_id').to_i)
   @scene = Scene.find(params.fetch('id').to_i)
+  @background = @scene.background
   erb(:scene_edit)
 end
 
@@ -210,11 +211,7 @@ get('/characters/:character_id/scenes/:id') do
   @character = Character.find(params.fetch('character_id').to_i)
   @user = @character.user
   @scene = Scene.find(params.fetch('id').to_i)
-  if @scene.background != nil
-    @background = @scene.background
-  else
-    @background = 'http://img06.deviantart.net/93d4/i/2009/022/3/e/steampunk_octopus_by_raybender.jpg'
-  end
+  @background = @scene.background
   erb(:scene)
 end
 
