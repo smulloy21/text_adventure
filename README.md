@@ -8,18 +8,17 @@
 
 _Use the admin page to create or edit a quest. From the home page, enter a name and choose a quest to begin._
 
-link to app on heroku: https://text-adventure-prototype.herokuapp.com/
-
 ## Setup
 
 * _Clone from GitHub_
+* _Run: bundle_
 * _Run: rake db:create_
 * _Run: rake db:migrate_
 * _Launch in Sinatra_
 
 ## Technologies Used
 
-_Ruby, ActiveRecord_
+_Ruby, ActiveRecord, Sinatra_
 
 ### Legal
 
@@ -44,5 +43,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-  @quest.update({:synopsis=> synopsis})

@@ -6,8 +6,6 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 require('sinatra/reloader')
 also_reload('./lib/**/*.rb')
 
-require('pry')
-
 get('/') do
   erb(:index)
 end
@@ -166,7 +164,6 @@ delete('/:user_id/scenes/:id/delete') do
   @scene = Scene.find(params.fetch('id').to_i)
   @quest = Quest.find(@scene.quest_id)
   @scene.options.each do |option|
-
     Scene.find(option.id).destroy()
   end
   @scene.destroy()
@@ -270,9 +267,6 @@ post('/characters/:character_id/scenes/:id/rating') do
   quest = Quest.find(Scene.find(params.fetch('id').to_i).quest_id)
   times_rated = 1 + quest.times_rated
   rating = (params.fetch("rating").to_i) + quest.rating
-
-
   quest.update({:times_rated => times_rated, :rating => rating})
-
   redirect('/characters/' + @character.id.to_s)
 end
